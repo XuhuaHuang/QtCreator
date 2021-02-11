@@ -20,9 +20,9 @@ int main(void)
     out << "Please enter your name" << endl;
     out.flush();
 
-    // fixing the issue to enter fill name with a space
+    // fixing the issue to enter full name with a space
     std::string tempName; // temporary variable
-    std::getline(std::cin, tempName); // use getline() function with std::iistream
+    std::getline(std::cin, tempName); // use getline() function with std::istream
 
     // convert std::string to QString and print to console
     QString Name = QString::fromStdString(tempName); // convert
