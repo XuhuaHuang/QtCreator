@@ -31,5 +31,4 @@ private:
     int flag; // boolean flag
     int count; // cliked times
 };
-
 #endif // CUSTOMSIGNAL_H
