@@ -11,14 +11,15 @@ UDPExample::UDPExample(QWidget *parent)
     udpSocket = new QUdpSocket(this);
     bool result = udpSocket->bind(QHostAddress::AnyIPv4, 8877,QUdpSocket::ShareAddress);
     qDebug() << result;
-    if(result){
+    if(result)
         qDebug() << "PASS";
-    }else{
+    else
         qDebug() << "FAIL";
-    }
 
     // connect signals and slots
+    // if the signal emits the data is ready to read, invoke function to do so
     connect(udpSocket, SIGNAL(readyRead()), this, SLOT(readUDPDataReceived()));
+    // if the send button is pressed, send the Json object over UDP
     connect(sendbtn, SIGNAL(clicked()), this, SLOT(sendJsonUdp()));
 }
 
@@ -31,11 +32,12 @@ void UDPExample::sendJsonUdp(void)
     QJsonObject objJson;
 
     // insert key-value pairs to the JSON object
-    objJson.insert("Name",nameedt->text());
-    objJson.insert("Street Address",straddredt->text());
-    objJson.insert("Province",provbox->currentText());
-    objJson.insert("Postal Code",postedt->text());
-    objJson.insert("Country",countryedt->text());
+    objJson.insert("Name", nameedt->text());
+    objJson.insert("Quote", quoteedt->text()); // add quote text edit field content to JSON object
+    objJson.insert("Street Address", straddredt->text());
+    objJson.insert("Province", provbox->currentText());
+    objJson.insert("Postal Code", postedt->text());
+    objJson.insert("Country", countryedt->text());
     objJson.insert("Acknowledged", "??");
 
     // convert JSON object to JSON document
@@ -55,10 +57,10 @@ void UDPExample::sendJsonUdp(void)
 } // send JSON serialization package over UDP
 
 void UDPExample::readUDPDataReceived(void){
-    qDebug() << "received datagram" << endl;
+    qDebug() << "Received datagram" << endl;
 
     while (udpSocket->hasPendingDatagrams()) {
-        qDebug() << "found pending datagram" << endl;
+        qDebug() << "Found pending datagram" << endl;
         QNetworkDatagram datagram = udpSocket->receiveDatagram();
         qDebug() << datagram.data() << endl ;
 
@@ -83,6 +85,7 @@ void UDPExample::drawApp()
 
     // create new labels
     namelbl =       new QLabel("Name:           ");
+    quotelbl =      new QLabel("Quote:          "); // X.H. added this line
     staddrlbl =     new QLabel("Street Address: ");
     provlbl =       new QLabel("Province:       ");
     postlbl =       new QLabel("Postal Code:    ");
@@ -94,6 +97,7 @@ void UDPExample::drawApp()
     // creat text editing field corresponding to labels
     // name and street address
     nameedt = new QLineEdit();
+    quoteedt = new QLineEdit(); // X.H. added this line
     straddredt = new QLineEdit();
 
     postedt = new QLineEdit();
@@ -118,6 +122,7 @@ void UDPExample::drawApp()
 
     // add all labels to label manager
     vboxlbl->addWidget(namelbl);
+    vboxlbl->addWidget(quotelbl); // X.H. added this line
     vboxlbl->addWidget(staddrlbl);
     vboxlbl->addWidget(provlbl);
     vboxlbl->addWidget(postlbl);
@@ -127,6 +132,7 @@ void UDPExample::drawApp()
 
     // add all text editing field to text field manager
     vboxfield->addWidget(nameedt);
+    vboxfield->addWidget(quoteedt); // X.H. added this line
     vboxfield->addWidget(straddredt);
     vboxfield->addWidget(provbox);
     vboxfield->addWidget(postedt);

@@ -10,8 +10,8 @@
 // ================================================================
 // ===                    FUNCTION PROTOTYPE                    ===
 // ================================================================
-void printWifiStatus(void);   // line 128
-void connectToWifi(void);     // line 99
+void printWifiStatus(void);
+void connectToWifi(void);
 
 // ================================================================
 // ===                      WiFi STATUS                         ===
@@ -28,8 +28,8 @@ int keyIndex = 0;
 // ================================================================
 // ===                     GLOBAL VARIABLE                      ===
 // ================================================================
-unsigned int localPort = 2390;  // local port to listen on
-char packetBuffer[512];         //buffer to hold incoming packet
+unsigned int localPort = 2390;  // predefined local port to listen on
+char packetBuffer[512];         // buffer to hold incoming packet
 char  ReplyBuffer[512];         // a string to send back
 WiFiUDP Udp;
 
@@ -44,6 +44,7 @@ void setup() {
   Serial.println("\nStarting connection to server...");
   // if you get a connection, report back via serial:
   Udp.begin(localPort);
+  Serial.println("\nConnection established");
 }
 
 void loop() {
@@ -63,9 +64,10 @@ void loop() {
     if (len > 0) {
       packetBuffer[len] = 0;
     }
+    
     Serial.println("Contents:");
     Serial.println(packetBuffer);
-    DynamicJsonDocument docRx(512);
+    DynamicJsonDocument docRx(1024);
     DeserializationError error = deserializeJson(docRx, packetBuffer);
 
     // Test if parsing succeeds.
@@ -74,12 +76,18 @@ void loop() {
       Serial.println(error.f_str());
       return;
     }
+
+    // extreact information from UDP packet
     String namestr = docRx["Name"];
+    String quotestr = docRx["Quote"]; // X.H. added this line
     String staddrstr = docRx["Street Address"];
     String provstr = docRx["Province"];
     String poststr = docRx["Postal Code"];
     String countrystr = docRx["Country"];
+
+    // print formatted output to serial monitor
     Serial.print("Name: "); Serial.println(namestr);
+    Serial.print("Quote: "); Serial.println(quotestr); // X.H. added this line
     Serial.print("Street Address: "); Serial.println(staddrstr);
     Serial.print("Province: "); Serial.println(provstr);
     Serial.print("Postal Code: "); Serial.println(poststr);
@@ -88,6 +96,7 @@ void loop() {
     docRx["Acknowledged"] = "OK";
     serializeJson(docRx, ReplyBuffer);
     serializeJson(docRx, Serial);
+    
     // send a reply, to the IP address and port that sent us the packet we received
     Udp.beginPacket(Udp.remoteIP(), 8877);
     Udp.write(ReplyBuffer);
@@ -121,9 +130,7 @@ void connectToWifi(void) {
   }
   Serial.println("Connected to WiFi");
   printWifiStatus();
-
 }
-
 
 void printWifiStatus() {
   // print the SSID of the network you're attached to:
@@ -137,7 +144,7 @@ void printWifiStatus() {
 
   // print the received signal strength:
   long rssi = WiFi.RSSI();
-  Serial.print("signal strength (RSSI):");
+  Serial.print("Signal strength (RSSI):");
   Serial.print(rssi);
   Serial.println(" dBm");
 }

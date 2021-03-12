@@ -7,5 +7,5 @@
  * \date   March 2021
  *********************************************************************/
 
-#define SECRET_SSID "HELLOWORLD"
-#define SECRET_PASS "helloworld"
+#define SECRET_SSID "Xuhua"
+#define SECRET_PASS "20010412"
