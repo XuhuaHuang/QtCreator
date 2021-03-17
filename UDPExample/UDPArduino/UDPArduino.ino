@@ -64,7 +64,7 @@ void loop() {
     if (len > 0) {
       packetBuffer[len] = 0;
     }
-    
+
     Serial.println("Contents:");
     Serial.println(packetBuffer);
     DynamicJsonDocument docRx(1024);
@@ -96,7 +96,7 @@ void loop() {
     docRx["Acknowledged"] = "OK";
     serializeJson(docRx, ReplyBuffer);
     serializeJson(docRx, Serial);
-    
+
     // send a reply, to the IP address and port that sent us the packet we received
     Udp.beginPacket(Udp.remoteIP(), 8877);
     Udp.write(ReplyBuffer);
@@ -107,28 +107,33 @@ void loop() {
 
 void connectToWifi(void) {
   // check for the WiFi module:
-  if (WiFi.status() == WL_NO_MODULE) {
-    Serial.println("Communication with WiFi module failed!");
+  if (WiFi.status() == WL_NO_MODULE) { // if WiFi module is not available
+    Serial.println("Communication with WiFi module failed!"); // print error message
     // don't continue
     while (true);
   }
 
-  String fv = WiFi.firmwareVersion();
-  if (fv < WIFI_FIRMWARE_LATEST_VERSION) {
+  String fv = WiFi.firmwareVersion(); // get framework version and assign to string fv
+  if (fv < WIFI_FIRMWARE_LATEST_VERSION) { // compare whether it is the latest version
+    // if it not up to date, ask user to upgrade
     Serial.println("Please upgrade the firmware");
   }
 
-  // attempt to connect to WiFi network:
+  // attempt to connect to WiFi network
+  // using a while loop to keep trying until it is connected
   while (status != WL_CONNECTED) {
+    // print SSID in the serial monitor
     Serial.print("Attempting to connect to SSID: ");
     Serial.println(ssid);
-    // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
+    // Connect to WPA/WPA2 network.
     status = WiFi.begin(ssid, pass);
-
     // wait 10 seconds for connection:
     delay(10000);
   }
+  // while loop exited, which means WiFi is now connected
+  // print confirmation in the Serial Monitor
   Serial.println("Connected to WiFi");
+  // call function to print WiFi status
   printWifiStatus();
 }
 

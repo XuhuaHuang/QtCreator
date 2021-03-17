@@ -38,12 +38,12 @@ private:
 
     // label for user to enter information, network port and display status
     QLabel *namelbl, *staddrlbl, *provlbl, *postlbl, *countrylbl, *senderiplbl, *senderportlbl, *recvstatuslbl;
-    // added label to contain the user's favourite quote
+    // added label to contain the user's favorite quote
     QLabel *quotelbl;
 
     // text edit field, send button and status message related to mentioned properties
     QLineEdit *nameedt, *straddredt, *postedt, *countryedt, *senderipedt, *senderportedt;
-    // added text editting field to contain the user's favourite quote
+    // added text editting field to contain the user's favorite quote
     QLineEdit *quoteedt;
 
     QPushButton *sendbtn;
