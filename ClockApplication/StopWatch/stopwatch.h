@@ -7,7 +7,7 @@
 #include <QTimer>
 #include <QTime>
 #include <QMouseEvent>
-#include <QMenu>
+#include <QPushButton>
 
 class StopWatch : public QWidget
 {
@@ -16,5 +16,11 @@ class StopWatch : public QWidget
 public:
     StopWatch(QWidget *parent = nullptr);
     ~StopWatch();
+public slots:
+
+private:
+    QTimer *stopwatch;
+    QLCDNumber *lcd;
+    QVBoxLayout *vbox;
 };
 #endif // STOPWATCH_H
