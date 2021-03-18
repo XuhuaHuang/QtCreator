@@ -18,8 +18,15 @@ public:
     ~Clock();
 public slots:
     void showTime();    // responsible for displaying time
-
+    void ShowContextMenu(const QPoint& pos); // close app
+protected:
+    // added mouse event handler
+    void mousePressEvent(QMouseEvent *event);
+    void mouseMoveEvent(QMouseEvent *event);
 private:
+    // added two ints to store mouse click coordinate
+    int m_nMouseClick_X_Coordinate;     // event->x();
+    int m_nMouseClick_Y_Coordinate;     // event->y();
     QTimer *clktimer;   // pointer to a QTimer object
     QLCDNumber *clk;    // pointer to a QLCDNumber object
     QVBoxLayout *vbox;  // vertical layout manager
