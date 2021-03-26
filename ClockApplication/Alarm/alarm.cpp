@@ -11,13 +11,15 @@ Alarm::Alarm(QWidget *parent)
     setWindowTitle("Alarm");
     // change the background color to dark grey
     setStyleSheet("background-color:#848484;");
-    // timeHbox = new QHBoxLayout();
+    resize(280, 120); // set fixed-size window
+    timeHbox = new QHBoxLayout();
     volumeHbox = new QHBoxLayout();
     btnHbox = new QHBoxLayout();
     vbox = new QVBoxLayout();
 
     // button, spin boxes and label
     separater = new QLabel(":");
+    separater->setAlignment(Qt::AlignHCenter);
     status = new QLabel("Alarm status");
     setVolume = new QLabel("Set Volume");
     setAlarmbtn = new QPushButton("Set Alarm");
