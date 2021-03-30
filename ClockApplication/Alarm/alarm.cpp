@@ -22,7 +22,7 @@ Alarm::Alarm(QWidget *parent)
     connect(stopbtn, SIGNAL(clicked()), this, SLOT(stopAlarm()));
 
     connect(volumebar, SIGNAL(valueChanged(int)), this, SLOT(setAlarmVolume(int)));
-    connect(hourBox, SIGNAL((valueChanged(int))), this, SLOT(setHour(int)));
+    connect(hourBox, SIGNAL(valueChanged(int)), this, SLOT(setHour(int)));
     connect(minuteBox, SIGNAL(valueChanged(int)), this, SLOT(setMinute(int)));
 }
 
