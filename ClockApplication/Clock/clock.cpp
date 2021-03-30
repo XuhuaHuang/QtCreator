@@ -71,9 +71,15 @@ void Clock::ShowContextMenu(const QPoint& pos)
 {
     // create a context menu with Quit button
     QMenu contextMenu(tr("Context menu"), this);
+    // set the background color to purple
     contextMenu.setStyleSheet("background-color:purple");
+    // create a QAction object and name it “Quit”
     QAction quitAction("Quit", this);
+    // when the action is triggered, close the application
     connect(&quitAction, SIGNAL(triggered()), this, SLOT(close()));
-    contextMenu.addAction(&quitAction);     // add action to context menu
+    // add action to context menu
+    contextMenu.addAction(&quitAction);
+    // make it available within the edge of the app
     contextMenu.exec(mapToGlobal(pos));
 }
+
