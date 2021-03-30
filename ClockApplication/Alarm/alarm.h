@@ -10,7 +10,8 @@
 #include <QVBoxLayout>
 #include <QSlider>
 #include <QTime>
-#include <QtMultimedia/QMediaPlayer>
+#include <QTimer>
+#include <QMediaPlayer>
 
 class Alarm : public QWidget
 {
@@ -23,10 +24,11 @@ public slots:
     void setAlarmTime();
     void setHour(int userHour) { hour = userHour; }
     void setMinute(int userMinute) { minute = userMinute; }
-    void soundAlarm(const QTime&);
+    void compareTime();
+    void soundAlarm();
 
-    void snoozeAlarm() { snoozed = true; }
-    void stopAlarm() { activated = false; }
+    void snoozeAlarm();
+    void stopAlarm();
     void setAlarmVolume(int volume) { alarmVolume = volume; }
 private:
     // funtionality related variable
@@ -39,6 +41,8 @@ private:
     QSlider *volumebar;         // control the volume of the alarm
     QSpinBox *hourBox;
     QSpinBox *minuteBox;
+    QTimer *timer;
+    QMediaPlayer *player;
 
     // status variable
     QTime alarmTime;
