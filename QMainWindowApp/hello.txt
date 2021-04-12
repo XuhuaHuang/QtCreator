@@ -1,0 +1,11 @@
+// you can save this file in .cpp file extension and say hello world!
+
+#include <iostream>
+
+int main(void)
+{
+    std::cout << "Hello, world!" << std::endl;
+    return 0;
+}
+
+// hello world
