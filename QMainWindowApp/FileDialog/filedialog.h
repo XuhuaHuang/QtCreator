@@ -18,6 +18,7 @@
 #include <QPlainTextEdit>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QMessageBox>
 #include <QDebug>
 
 class FileDialog : public QWidget
