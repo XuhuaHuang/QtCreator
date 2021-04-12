@@ -69,20 +69,21 @@ void FileDialog::saveBtnClicked()
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save Text File"), "C:/untitled.txt", // default to "untitled.txt"
         tr("Text Files (*.txt)"));
-    // check if the file name is empty
+    // check if provided file name is empty
     if (fileName != NULL) { // valid file name
-        // create output file object to write to
+        // create file object to write to
         QFile outputFile(fileName);
         // check if the file can be opened to write
         if (outputFile.open(QFile::WriteOnly)) {
-            // create output stream objects with pointer to file
+            // create an output stream object with overloaded constructor
+            // pass the pointer to output file as the argument
             QTextStream out(&outputFile);
-            // tolerate any languages with UTF-8 encoded
+            // tolerate any languages with UTF-8 encoder
             out.setCodec("UTF-8");
             out << plnTxtEdt->toPlainText(); // write to file
         }
     }
-    else { // if the file name is empty, throw a critical error
+    else { // if provided file name is empty, throw a critical error
         QMessageBox::critical(this,
                               tr("Error"),
                               tr("File name is not specified."));
