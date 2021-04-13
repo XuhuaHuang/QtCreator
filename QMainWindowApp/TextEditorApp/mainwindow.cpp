@@ -3,6 +3,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+    init();
+}
+
+void MainWindow::init()
+{
     plntxtedt = new QPlainTextEdit();
     this->setCentralWidget(plntxtedt);
     createActions();
@@ -11,6 +16,11 @@ MainWindow::MainWindow(QWidget *parent)
     /* BUILD 2 - ADD A TOOLBAR */
     createToolBars();
     statusBar()->showMessage("Ready");
+
+    /* BUILD 5 */
+    setName("");
+    plntxtedt->setWindowModified(false);
+    connect(plntxtedt, SIGNAL(textChanged()), this, SLOT(windowIsMod()));
 
     setWindowIcon(QIcon("./images/editor.png"));
     resize(400, 500);
@@ -132,25 +142,168 @@ void MainWindow::createToolBars()
 
 void MainWindow::newFile()
 {
-    statusBar()->showMessage("New file Created");
+    statusBar()->showMessage("Create a New File");
+    if (isWindowModified()) {
+        int ret = QMessageBox::warning(this,
+                                       "Warning", "Save first before opening a new file",
+                                       QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel,
+                                       QMessageBox::Save);
+        switch(ret)
+        {
+        case QMessageBox::Save:
+            this->saveAs();
+            clearUntitledWin();
+            break;
+        case QMessageBox::Discard:
+            clearUntitledWin();
+            break;
+        case QMessageBox::Cancel:
+            break;
+        default:
+            break;
+        }
+    }
+    else
+        clearUntitledWin();
 }
 
 void MainWindow::open()
 {
+    if (isWindowModified()) {
+        int ret = QMessageBox::warning(this,
+                                       "Warning", "Save first before opening an existing file",
+                                       QMessageBox::Save|QMessageBox::Discard|QMessageBox::Cancel,
+                                       QMessageBox::Save);
+        switch(ret)
+        {
+        case QMessageBox::Save:
+            this->saveAs();
+            this->load();
+            break;
+        case QMessageBox::Discard:
+            this->load();
+            break;
+        case QMessageBox::Cancel:
+            break;
+        default:
+            break;
+        }
+    }
+    else
+        this->load();
+}
 
+void MainWindow::loadFile(const QString &fileName)
+{
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("SDI"),
+                             tr("Cannot read file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString())
+                             );
+        return;
+    }
+    /* Create QFile object with Provided File Name and Read from File */
+    QTextStream in(&file);
+    plntxtedt->setPlainText(in.readAll());
+    statusBar()->showMessage(tr("File loaded"), 2000);
+    setName(fileName);
+    this->setWindowModified(false);
+    file.close();
+}
+
+void MainWindow::saveFile(const QString &fileName){
+    QFile file(fileName); // pass the pointer to overloaded QTextStream contructor
+    if (!fileName.isEmpty() && !file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("SDI"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return;
+    }
+    /* Create QFile object with Provided File Name to Write to File */
+    QTextStream out(&file); // pass the pointer to overloaded QTextStream contructor
+    out << plntxtedt->toPlainText () << endl;
+    statusBar()->showMessage(tr("File saved"), 2000);
+    setName(fileName);
+    file.close();
 }
 
 void MainWindow::save()
 {
-
+    saveFile(curFileName);
+    this->setWindowModified(false);
 }
 
 void MainWindow::saveAs()
 {
-
+    QString fileName = QFileDialog::getSaveFileName(this);
+    saveFile(fileName);
+    // saveFile(QFileDialog::getSaveFileName(this));
+    this->setWindowModified(false);
 }
 
 void MainWindow::about()
 {
+    QMessageBox::about(this,
+                       "About",
+                       "This is a simple SDI text editor");
+}
 
+void MainWindow::windowIsMod()
+{
+    this->setWindowModified(true);
+}
+
+void MainWindow::setName(const QString &fileName)
+{
+    if(fileName.isEmpty())
+    {
+        setWindowTitle("Untitled[*]");
+        curFileName = "Untitled";
+    }
+    else
+    {
+        setWindowTitle(fileName + "[*]");
+        curFileName = fileName;
+    }
+}
+
+void MainWindow::clearUntitledWin()
+{
+    plntxtedt->clear();
+    setName("");
+    this->setWindowModified(false);
+}
+
+void MainWindow::load()
+{
+    QString fileName = QFileDialog::getOpenFileName(this);
+    if (!fileName.isEmpty())
+        loadFile(fileName);
+    else if(fileName.isNull())
+        QMessageBox::warning(this, "File does not exist", "File does not exist");
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (isWindowModified()) {
+        int ret = QMessageBox::warning(this,
+                                       "Warning",
+                                       "Save changes before closing application",
+                                       QMessageBox::Save|QMessageBox::Cancel,
+                                       QMessageBox::Save);
+        switch(ret)
+        {
+        case QMessageBox::Save:
+            this->saveAs();
+            break;
+        case QMessageBox::Cancel:
+            break;
+        default:
+            break;
+        } // end switch
+    } // end checking whether the window is modified
+    event->accept();
 }
