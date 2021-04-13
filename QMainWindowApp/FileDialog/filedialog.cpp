@@ -61,6 +61,7 @@ void FileDialog::openBtnClicked()
             // start a new line at the end of each read line
         } while (!content.isNull());
     } // end reading QFile object
+    data.close();
 }
 
 void FileDialog::saveBtnClicked()
@@ -82,6 +83,7 @@ void FileDialog::saveBtnClicked()
             out.setCodec("UTF-8");
             out << plnTxtEdt->toPlainText(); // write to file
         }
+        outputFile.close();
     }
     else { // if provided file name is empty, throw a critical error
         QMessageBox::critical(this,
