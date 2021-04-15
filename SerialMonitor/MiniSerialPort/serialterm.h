@@ -40,9 +40,9 @@ public:
     void enumerateSerPorts(void);
 public slots: //custom slot methods
     void addAvailablePorts(void);
-    //connect to serial port
+    // connect to serial port
     void serConnect(void);
-    //disconnect from serial port
+    // disconnect from serial port
     void serDisConnect(void);
     // transmit data available in TX buffer
     void serSendTxBuff(void);
