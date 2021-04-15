@@ -74,6 +74,7 @@ private:
     void createMenu(void);
     void createAction(void);
     void connectSignalSlot(void);
+    void enumerateSerPorts(void);
     // save file and save as
     void saveFile(const QString &fileName);
     void setFileName(const QString &fileName);

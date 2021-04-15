@@ -13,8 +13,10 @@ SerialMonitor::SerialMonitor(QWidget *parent)
     : QMainWindow(parent)
 {
     drawApplication();
+    handleTabPress();
     createAction();
     createMenu();
+    connectSignalSlot();
 }
 
 SerialMonitor::~SerialMonitor() {}
@@ -124,6 +126,12 @@ void SerialMonitor::connectSignalSlot()
 
 }
 
+/* LIST AVAILABLE PORTS */
+void SerialMonitor::enumerateSerPorts()
+{
+    serinfo = QSerialPortInfo::availablePorts();
+}
+
 void SerialMonitor::saveFile(const QString &fileName)
 {
 
@@ -140,9 +148,54 @@ void SerialMonitor::addAvailablePorts(void)
 
 }
 
+/* CONNECT TO SERIAL PORT */
 void SerialMonitor::serialConnect(void)
 {
+    enumerateSerPorts();
+    if(serinfo.count() == 0) // if no ports are found...
+    {
+        QMessageBox::warning(this, "Error", "No available serial port!");
+    }
+    else // if at least one port is found...we will use the first port found
+    {
+        serial->setPort(serinfo[portsbox->currentIndex()]);
+        if(serial->isOpen())// if port is already open...
+            QMessageBox::warning(this, "Error", "Serial port is already open. Please disconnect first.");
+        else // if port is available and not open...open it
+        {
+            if (serial->open(QIODevice::ReadWrite) == false)
+            {
+                QMessageBox::warning(this, "Error", "Failed to open port.");
+                serial->close(); // if opening port failed close it
+            }
+            else // if port opened successfully....set its parameters
+            {
+                if (baudratebox->currentText() == "1200")
+                    serial->setBaudRate(QSerialPort::Baud1200);
+                else if (baudratebox->currentText() == "2400")
+                    serial->setBaudRate(QSerialPort::Baud2400);
+                else if (baudratebox->currentText() == "4800")
+                    serial->setBaudRate(QSerialPort::Baud4800);
+                else if (baudratebox->currentText() == "9600")
+                    serial->setBaudRate(QSerialPort::Baud9600);
+                else if (baudratebox->currentText() == "19200")
+                    serial->setBaudRate(QSerialPort::Baud19200);
+                else
+                    serial->setBaudRate(QSerialPort::UnknownBaud);
 
+                serial->setDataBits(QSerialPort::Data8); // 8-bit data
+                serial->setParity(QSerialPort::NoParity); // no parity
+                serial->setFlowControl(QSerialPort::NoFlowControl); // no flow control
+                serial->setStopBits(QSerialPort::OneStop); // 1 stop bit
+                // update status label
+                statuslbl->setText("Port: "
+                                 + serinfo[portsbox->currentIndex()].portName()
+                                 + " is open at baud rate "
+                                 + baudratebox->currentText()
+                                 + " bits per second");
+            }
+        }
+    }
 }
 
 void SerialMonitor::serialDisconnect(void)
