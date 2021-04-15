@@ -240,6 +240,7 @@ void MainWindow::saveAs()
 {
     /* Added "All Files" and "Text Files" filter when saving a file */
     QString defaultSaveFilter = tr("Text Files (*.txt)");
+    QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Save File"), "C:/untitled.txt",
                                                     tr("All Files (*.*);;Text Files (*.txt)"),
                                                     &defaultSaveFilter);
