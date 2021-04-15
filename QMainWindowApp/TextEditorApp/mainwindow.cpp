@@ -238,7 +238,11 @@ void MainWindow::save()
 
 void MainWindow::saveAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(this);
+    /* Added "All Files" and "Text Files" filter when saving a file */
+    QString defaultSaveFilter = tr("Text Files (*.txt)");
+                                                    tr("Save File"), "C:/untitled.txt",
+                                                    tr("All Files (*.*);;Text Files (*.txt)"),
+                                                    &defaultSaveFilter);
     saveFile(fileName);
     // saveFile(QFileDialog::getSaveFileName(this));
     this->setWindowModified(false);
@@ -247,8 +251,8 @@ void MainWindow::saveAs()
 void MainWindow::about()
 {
     QMessageBox::about(this,
-                       "About",
-                       "This is a simple SDI text editor");
+                       "About", // title
+                       "This is a simple SDI text editor"); // info
 }
 
 void MainWindow::windowIsMod()
@@ -279,7 +283,12 @@ void MainWindow::clearUntitledWin()
 
 void MainWindow::load()
 {
-    QString fileName = QFileDialog::getOpenFileName(this);
+    /* Added "All Files" and "Text Files" filter when opening a file */
+    QString defaultFilter = tr("Text Files (*.txt)");
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Open Files"), "C:/",
+                                                    tr("All Files (*.*);;Text Files (*.txt)"),
+                                                    &defaultFilter);
     if (!fileName.isEmpty())
         loadFile(fileName);
     else if(fileName.isNull())
