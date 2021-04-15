@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   main.cpp
+ * \brief  QMainWindow application to monitor message in a serial port
+ * 
+ * \author Xuhua Huang
+ * \date   April 2021
+ *********************************************************************/
+
 #include "serialmonitor.h"
 
 #include <QApplication>
