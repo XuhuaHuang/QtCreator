@@ -63,16 +63,16 @@ public slots:
     void dispRxData(void);          // receive and display data in RX buffer
 
     /* Save to a file functionality related slots */
-
     void save(void);
     void saveAs(void);
+    void about(void) {}
 
 private:
     /* Private functions */
     void drawApplication(void);
     void handleTabPress(void);
-    void createMenu(void);
     void createAction(void);
+    void createMenu(void);
     void connectSignalSlot(void);
     void enumerateSerPorts(void);
     // save file and save as
@@ -100,8 +100,10 @@ private:
     QHBoxLayout *hboxbtns, *txhbox, *rxhbox;
 
     /* Added 'File' menu */
+    QString curFileName;
+    bool firstSave;
     QMenu *fileMenu;
-    QAction *saveRxBuff; //, *saveAsAct;
+    QAction *saveRxBuff, *saveRxBuffAs; //, *saveAsAct;
     QAction *aboutAct, *exitAct;
 
     /* Added 'Connection' menu */
