@@ -82,7 +82,7 @@ void SerialMonitor::drawApplication()
     serialMonitor->setLayout(vboxbuff);
     setCentralWidget(serialMonitor);
 
-    setWindowTitle("Simple Serial Terminal");
+    setWindowTitle("Serial Monitor");
     setWindowIcon(QIcon("./serial.png"));
     setFixedSize(400, 500);
     setToolTip("This is a simple serial terminal application hardwired to 9600 8-N-1.\n"
@@ -189,7 +189,7 @@ void SerialMonitor::serialConnect(void)
                 serial->setStopBits(QSerialPort::OneStop); // 1 stop bit
                 // update status label
                 statuslbl->setText("Port: "
-                                 + serinfo[portsbox->currentIndex()].portName()
+                                 + serial->portName()
                                  + " is open at baud rate "
                                  + baudratebox->currentText()
                                  + " bits per second");
