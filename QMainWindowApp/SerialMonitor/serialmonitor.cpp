@@ -204,7 +204,7 @@ void SerialMonitor::saveFile(const QString& fileName)
 
     /* Create QFile object with Provided File Name to Write to File */
     QTextStream out(&file); // pass the pointer to overloaded QTextStream contructor
-    out << rxbuff->toPlainText () << endl;
+    out << rxbuff->toPlainText() << endl;
     statusBar()->showMessage(tr("File saved"), 2000);
     file.close();
 }
@@ -326,7 +326,7 @@ void SerialMonitor::dispRxData(void)
 }
 
 /* SLOT save() & saveAs() */
-/* INVOKE FUNVTION saveFile(const QString& fileName) */
+/* INVOKE FUNCTION saveFile(const QString& fileName) */
 void SerialMonitor::save(void)
 {
     if (firstSave)
