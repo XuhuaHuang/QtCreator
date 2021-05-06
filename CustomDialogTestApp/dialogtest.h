@@ -38,6 +38,7 @@ private:
     QLabel *label;
     QHBoxLayout *hbox;
     QVBoxLayout *vbox;
+
     CustomDialog *modaldialog;
     CustomDialog *modelessdialog;
 };

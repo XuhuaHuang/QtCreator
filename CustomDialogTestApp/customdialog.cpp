@@ -1,7 +1,7 @@
 /*****************************************************************//**
  * \file   customdialog.cpp
  * \brief  implementation to create a CustomDialog object
- * 
+ *
  * \author Xuhua Huang
  * \date   April 2021
  *********************************************************************/
@@ -29,13 +29,27 @@ CustomDialog::CustomDialog(QWidget *parent)
     vbox->addWidget(slider);
     vbox->addWidget(label);
     vbox->addWidget(dialogbtns);
-    setLayout(vbox);
 
     /* CONNECT signals and slots */
+    /* Handle value changes */
     connect(spinbox, SIGNAL(valueChanged(int)), this, SLOT(updateDialogValue(int)));
     connect(slider, SIGNAL(valueChanged(int)), this, SLOT(updateDialogValue(int)));
+    /* Handle user actions */
     connect(dialogbtns, SIGNAL(accepted()), this, SLOT(accept()));
     connect(dialogbtns, SIGNAL(rejected()), this, SLOT(reject()));
+
+    /* ADD MENUBAR, FILE MENU AND ACTION TO QUIT */
+    menuBar = new QMenuBar();
+    fileMenu = new QMenu(tr("&File"));
+    quitAct = new QAction(tr("Quit"), this);
+    quitAct->setStatusTip(tr("Quit application"));
+    quitAct->setShortcuts(QKeySequence::Quit);
+    connect(quitAct, SIGNAL(triggered()), this, SLOT(close()));
+    fileMenu->addAction(quitAct);
+
+    menuBar->addMenu(fileMenu);
+    vbox->setMenuBar(menuBar);
+    setLayout(vbox);
 }
 
 CustomDialog::~CustomDialog() {}

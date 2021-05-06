@@ -16,6 +16,10 @@
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
 #include <QDebug>
+#include <QAction>
+#include <QMenu>
+#include <QMenuBar>
+#include <QApplication>
 
 class CustomDialog : public QDialog
 {
@@ -38,5 +42,9 @@ private:
     QLabel *label;
     QDialogButtonBox *dialogbtns;
     QVBoxLayout *vbox;
+
+    QMenuBar *menuBar;
+    QMenu *fileMenu;
+    QAction *quitAct;
 };
 #endif // CUSTOMDIALOG_H
