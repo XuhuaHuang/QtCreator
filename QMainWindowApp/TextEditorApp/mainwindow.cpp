@@ -213,7 +213,7 @@ void MainWindow::loadFile(const QString &fileName)
     file.close();
 }
 
-void MainWindow::saveFile(const QString &fileName){
+void MainWindow::saveFile(const QString& fileName){
     QFile file(fileName); // pass the pointer to overloaded QTextStream contructor
     if (!fileName.isEmpty() && !file.open(QFile::WriteOnly | QFile::Text)) {
         QMessageBox::warning(this, tr("SDI"),
@@ -241,9 +241,10 @@ void MainWindow::saveAs()
     /* Added "All Files" and "Text Files" filter when saving a file */
     QString defaultSaveFilter = tr("Text Files (*.txt)");
     QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Save File"), "C:/untitled.txt",
-                                                    tr("All Files (*.*);;Text Files (*.txt)"),
-                                                    &defaultSaveFilter);
+                                                    tr("Save File"), // window title
+                                                    "C:/untitled.txt", // default directory
+                                                    tr("All Files (*.*);;Text Files (*.txt)"), // all available filters
+                                                    &defaultSaveFilter); // default filter
     saveFile(fileName);
     // saveFile(QFileDialog::getSaveFileName(this));
     this->setWindowModified(false);
