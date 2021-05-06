@@ -42,7 +42,7 @@ DialogTest::DialogTest(QWidget *parent)
     connect(slider, SIGNAL(valueChanged(int)), modelessdialog, SLOT(updateDialogValue(int)));
 
     connect(modaldialog, SIGNAL(dialogValueChanged(int)), this, SLOT(updateAppValue(int)));
-    connect(modelessdialog, SIGNAL(dialogValueChanged(int)), this, SLOT(updateAppValue(int)));
+    connect(modelessdialog, SIGNAL(dialogValueChanged(int)), this, SLOT(updateAppValue(int)));    
 }
 
 DialogTest::~DialogTest() {}
