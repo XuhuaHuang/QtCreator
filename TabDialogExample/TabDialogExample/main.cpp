@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    TabDialog w;
+    TabDialog w("tabdialog.cpp");
     w.show();
     return a.exec();
 }
