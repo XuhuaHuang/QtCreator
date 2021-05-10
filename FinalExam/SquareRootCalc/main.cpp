@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   main.cpp
+ * \brief  file handling event loop
+ * 
+ * \author Xuhua Huang
+ * \date   May 2021
+ *********************************************************************/
+
 #include "sqrtcalc.h"
 
 #include <QApplication>
