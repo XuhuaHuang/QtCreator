@@ -112,9 +112,13 @@ void UDPExample::drawApp()
 
     // province combo box and province list
     provbox = new QComboBox();
-    QStringList provStrList = {"AB", "BC", "MB", "NB", "NL", "NS","NT","NU", "ON", "PE","QC", "SK","YT"};
-    provbox->addItems(provStrList);senderipedt = new QLineEdit();
-
+    QStringList provStrList = {
+        "AB", "BC", "MB", "NB", "NL", "NS", "NT", "NU", "ON", "PE", "QC", "SK", "YT"
+    };
+    provbox->addItems(provStrList);
+    
+    // IP address and port number of WLAN connected Arduino
+    senderipedt = new QLineEdit();
     //senderipedt->setText("192.168.0.105");
     senderportedt = new QLineEdit();
     //senderportedt->setText("2390");
