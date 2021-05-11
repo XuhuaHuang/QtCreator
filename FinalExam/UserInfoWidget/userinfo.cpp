@@ -90,6 +90,7 @@ void UserInfo::setAppLayout()
 
     this->setLayout(mainLayout);
     this->setWindowTitle("User Information Widget");
+    this->setWindowIcon(QIcon("../info.png"));
     this->setFixedSize(350, 450);
 }
 
