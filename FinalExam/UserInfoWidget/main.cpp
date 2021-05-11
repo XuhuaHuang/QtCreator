@@ -1,3 +1,11 @@
+/*****************************************************************//**
+ * \file   main.cpp
+ * \brief  file handling event loop
+ * 
+ * \author Xuhua Huanh
+ * \date   May 2021
+ *********************************************************************/
+
 #include "userinfo.h"
 
 #include <QApplication>
