@@ -2,7 +2,7 @@
  * \file   main.cpp
  * \brief  file handling event loop
  * 
- * \author Xuhua Huanh
+ * \author Xuhua Huang
  * \date   May 2021
  *********************************************************************/
 
