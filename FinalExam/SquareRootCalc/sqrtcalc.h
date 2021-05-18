@@ -43,6 +43,6 @@ private:
     QVBoxLayout *mainlayout;    // contains hbox and QLabel
 
     // function to update result label
-    void updateResultlbl(double, int, double);
+    void updateResultlbl(const double& calcResult, const int& iterations, const double& error);
 };
 #endif // SQRTCALC_H

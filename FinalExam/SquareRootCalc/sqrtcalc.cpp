@@ -70,7 +70,9 @@ void SqrtCalc::calcSqrtClicked()
     updateResultlbl(newGuess, timesIterated, error);
 }
 
-void SqrtCalc::updateResultlbl(double calcResult, int iterations, double error)
+/* Funtion to Update the Result Label */
+// constant reference to parsed arguments
+void SqrtCalc::updateResultlbl(const double& calcResult, const int& iterations, const double& error)
 {
     result->setText("Square root of " + QString::number(userInput->text().toDouble()*1.0) + " is " + QString::number(calcResult*1.0) + ".\n"
                     + "Result converged in " + QString::number(iterations + 1) + " iterations.\n"
