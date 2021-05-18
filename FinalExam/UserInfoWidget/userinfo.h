@@ -35,7 +35,7 @@ public slots:
     void okbtnClicked();
 
 private:
-    /* Provate Functions Called in Constructor */
+    /* Private Functions Called in Constructor */
     // initialize label, line edit field, and combo box
     void initElements();
     // add elements to layout
